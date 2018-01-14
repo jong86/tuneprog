@@ -17,33 +17,34 @@ export default class MasterControls extends Component {
   constructor() {
     super();
     this.state = {
-      disabled: false
+      isRecording: false,
+      isPlaying: false,
     };
+    this.recording = null;
+    this.sound = null;
 
-    this._onPress = this._onPress.bind(this)
+    this._playPause = this._playPause.bind(this)
+    this._record = this._record.bind(this)
+    this._stop = this._stop.bind(this)
   }
 
-  _onPress() {
+  _playPause() {
+    this.sound = new Player("multiTrackId_audioTrackId.mp4")
+    this.sound.play()
+  }
+
+  _record() {
     // Disable button while recording and playing back
-    this.setState({disabled: true});
+    this.setState({isRecording: true});
 
     // Start recording
-    let rec = new Recorder("filename.mp4").record();
+    this.rec = new Recorder("multiTrackId_audioTrackId.mp4").record();
+  }
 
-    // Stop recording after approximately 3 seconds
-    setTimeout(() => {
-      rec.stop((err) => {
-        // NOTE: In a real situation, handle possible errors here
-
-        // Play the file after recording has stopped
-        new Player("filename.mp4")
-        .play()
-        .on('ended', () => {
-          // Enable button again after playback finishes
-          this.setState({disabled: false});
-        });
-      });
-    }, 3000);
+  _stop() {
+    this.rec.stop((err) => {
+      console.warn(err)
+    });
   }
 
 
@@ -58,18 +59,12 @@ export default class MasterControls extends Component {
           />
           <ControlButton
             type="REC"
-            disabled={this.state.disabled}
-            specificFunction={this._onPress}
-          />
+            specificFunction={this._record}
+            />
           <ControlButton
             type="STOP"
             specificFunction={this._stop}
           />
-          <TouchableHighlight disabled={this.state.disabled} onPress={() => this._onPress()}>
-            <Text>
-              Press me!
-            </Text>
-          </TouchableHighlight>
         </View>
 
       </View>

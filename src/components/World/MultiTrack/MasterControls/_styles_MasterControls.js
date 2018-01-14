@@ -9,10 +9,6 @@ export default StyleSheet.create({
     height: '25%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
-    borderColor: 'rgba(0, 0, 0, 0)'
   },
 
   buttonWrapper: {
@@ -30,6 +26,9 @@ export default StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: '#545454',
+    borderWidth: 2,
+    borderRadius: 8,
   },
 
   trackControlText: {
@@ -37,18 +36,4 @@ export default StyleSheet.create({
     padding: 0,
   },
 
-  buttonPlay: {
-    borderColor: 'forestgreen',
-    borderBottomLeftRadius: 10,
-    borderWidth: 2,
-  },
-  buttonRecord: {
-    borderColor: 'tomato',
-    borderWidth: 2,
-  },
-  buttonStop: {
-    borderColor: 'steelblue',
-    borderBottomRightRadius: 10,
-    borderWidth: 2,
-  },
 });

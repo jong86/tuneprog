@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 
 import ControlButton from './ControlButton';
 
@@ -14,32 +14,37 @@ import {
 
 
 export default class MasterControls extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super();
     this.state = {
-    }
+      disabled: false
+    };
+
+    this._onPress = this._onPress.bind(this)
   }
 
-  _toggleRecord() {
-    if (this.player) {
-      this.player.destroy();
-    }
+  _onPress() {
+    // Disable button while recording and playing back
+    this.setState({disabled: true});
 
-    this.recorder.toggleRecord((err, stopped) => {
-      if (err) {
-        this.setState({
-          error: err.message
+    // Start recording
+    let rec = new Recorder("filename.mp4").record();
+
+    // Stop recording after approximately 3 seconds
+    setTimeout(() => {
+      rec.stop((err) => {
+        // NOTE: In a real situation, handle possible errors here
+
+        // Play the file after recording has stopped
+        new Player("filename.mp4")
+        .play()
+        .on('ended', () => {
+          // Enable button again after playback finishes
+          this.setState({disabled: false});
         });
-      }
-      if (stopped) {
-        this._reloadPlayer();
-        this._reloadRecorder();
-      }
-
-      this._updateState();
-    });
+      });
+    }, 3000);
   }
-
 
 
   render() {
@@ -49,16 +54,22 @@ export default class MasterControls extends Component {
         <View style={styles.buttonWrapper}>
           <ControlButton
             type="PLAY"
-            specificFunction={this._onPlayPausePressed}
+            specificFunction={this._playPause}
           />
           <ControlButton
             type="REC"
-            specificFunction={this._toggleRecord}
+            disabled={this.state.disabled}
+            specificFunction={this._onPress}
           />
           <ControlButton
             type="STOP"
-            specificFunction={this._onStopPressed}
+            specificFunction={this._stop}
           />
+          <TouchableHighlight disabled={this.state.disabled} onPress={() => this._onPress()}>
+            <Text>
+              Press me!
+            </Text>
+          </TouchableHighlight>
         </View>
 
       </View>

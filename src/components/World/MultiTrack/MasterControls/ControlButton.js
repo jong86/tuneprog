@@ -37,7 +37,8 @@ export default ControlButton = (props) => {
   const {
     isOn,
     specificFunction,
-    type
+    type,
+    disabled
   } = props;
 
 
@@ -45,7 +46,8 @@ export default ControlButton = (props) => {
     <TouchableHighlight
       style={[styles.trackControl, specificStyle, isOn ? { opacity: 0.45 } : { opacity: 1 }]}
       underlayColor="#ffff33"
-      onPress={specificFunction}
+      disabled={disabled}
+      onPress={() => specificFunction()}
     >
       <Text style={styles.trackControlText}>[]</Text>
     </TouchableHighlight>

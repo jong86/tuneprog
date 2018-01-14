@@ -22,12 +22,13 @@ export default StyleSheet.create({
   },
 
   trackControl: {
-    width: '33.33333%',
+    width: '33%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#545454',
     borderWidth: 2,
+    backgroundColor: '#000',
     borderRadius: 8,
   },
 

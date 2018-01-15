@@ -2,9 +2,6 @@ import update from 'react-addons-update'
 
 initialState = {
   multiTracks: {},
-  focusedMultiTrack: 0, // deprecated
-  viewMode: 'WORLD', // deprecated
-  zoomScale: 1.0, // deprecated
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -20,11 +17,11 @@ const rootReducer = (state = initialState, action) => {
         }
       })
 
-    case 'ADD_TRACK':
+    case 'SAVE_SOUND':
       return update(state, {
         multiTracks: {
           [multiTrackId]: {
-            audioTracks: {$push: [action.audioTrackData]},
+            sounds: {$push: [action.soundData]},
           }
         }
       })

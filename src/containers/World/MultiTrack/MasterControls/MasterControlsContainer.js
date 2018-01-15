@@ -16,32 +16,16 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   const { multiTrackId } = ownProps;
   return {
-    addTrack: (id) => {
-      dispatch(action('ADD_TRACK', {
+    saveSound: (id, filename) => {
+      dispatch(action('SAVE_SOUND', {
         multiTrackId: ownProps.multiTrackId,
-        audioTrackData: {
+        soundData: {
           id: id,
-          isArmed: false,
-          recordingDuration: null,
-          soundData: {},
-          soundDuration: null,
-          recordingSettings: null,
+          filename: filename,
+          isSelected: false,
         }
       }))
     },
-
-    setRecordingDuration: (audioTrackIndex, duration) => {
-      dispatch(action('SET_RECORDING_DURATION', { audioTrackIndex, multiTrackId, duration }))
-    },
-    updateSoundStatus: (audioTrackIndex, status) => {
-      dispatch(action('UPDATE_SOUND_STATUS', { audioTrackIndex, multiTrackId, status }))
-    },
-    saveSoundData: (audioTrackIndex, soundData) => {
-      dispatch(action('SAVE_SOUND_DATA', { audioTrackIndex, multiTrackId, soundData }))
-    },
-    toggleIsMultiTrackPlaying: () => {
-      dispatch(action('TOGGLE_IS_MULTI_TRACK_PLAYING', { multiTrackId }))
-    }
   }
 }
 

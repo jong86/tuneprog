@@ -14,25 +14,6 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return({
-    addTrack: () => {
-      dispatch(action('ADD_TRACK', {
-        multiTrackId: ownProps.id,
-        audioTrackInitialState: {
-          id: uuidv4(),
-          isArmed: false,
-          recordingDuration: null,
-          soundData: {},
-          soundDuration: null,
-          recordingSettings: null,
-        }
-      }))
-    },
-    zoomIn: () => {
-      dispatch(action('SET_ZOOM_SCALE', { zoomScale: 1.0 }))
-    },
-    switchToMultiTrackViewMode: () => {
-      dispatch(action('SET_VIEW_MODE', { viewMode: 'MULTI_TRACK' }))
-    },
   })
 }
 

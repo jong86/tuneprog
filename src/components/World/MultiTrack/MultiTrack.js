@@ -9,15 +9,15 @@ import styles from './_styles_MultiTrack';
 
 
 export default class MultiTrack extends Component {
-  renderAudioTracksList() {
-    const audioTracks = this.props.multiTrackData.audioTracks;
-    return audioTracks.map((audioTrackData, audioTrackIndex) => {
+  _renderSoundsList() {
+    const sounds = this.props.multiTrackData.sounds;
+    return sounds.map((soundData, index) => {
       return (
         <AudioTrackContainer
-          {...audioTrackData}
-          key={audioTrackData.id} // For React
-          id={audioTrackData.id} // Unique identifier for me
-          audioTrackIndex={audioTrackIndex} // Index/position in multiTrack array
+          {...soundData}
+          key={soundData.id} // For React
+          id={soundData.id} // Unique identifier for me
+          audioTrackIndex={index} // Position in multiTrack array
           multiTrackId={this.props.multiTrackId}
         />
       )
@@ -26,7 +26,7 @@ export default class MultiTrack extends Component {
 
   render() {
     const { position } = this.props.multiTrackData;
-    const audioTracks = this.props.multiTrackData.audioTracks;
+    const sounds = this.props.multiTrackData.sounds;
     return (
       <View
         style={[
@@ -41,9 +41,8 @@ export default class MultiTrack extends Component {
         <ScrollView
           style={styles.scrollViewStyle}
         >
-          { audioTracks[0] && this.renderAudioTracksList() }
         </ScrollView>
-
+          { sounds && sounds[0] && this._renderSoundsList() }
         <MasterControlsContainer multiTrackId={this.props.multiTrackId} />
       </View>
     )

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
+
+
 import uuidv4 from 'uuid/v4';
 
 import ControlButton from './ControlButton';
@@ -13,6 +15,7 @@ import {
   Recorder,
   MediaStates
 } from 'react-native-audio-toolkit';
+import Sound from 'react-native-sound';
 
 
 export default class MasterControls extends Component {
@@ -24,7 +27,11 @@ export default class MasterControls extends Component {
     };
     this.recording = null;
     this.sound = null;
+
     this.currentFilename = null;
+    this.currentSoundId = null;
+
+    this.interval = null;
 
     this._pause = this._pause.bind(this)
     this._play = this._play.bind(this)
@@ -33,54 +40,58 @@ export default class MasterControls extends Component {
   }
 
   _pause() {
-    this.sound.pause((error) => {
-      if (error) {
-        console.log(error);
-      }
+    this.sound.pause(() => {
+      console.log('paused sound:', this.sound);
+      clearInterval(this.interval)
       this.setState({isPlaying: false})
     })
   }
 
   _play() {
-    this.sound.play((error) => {
-      if (error) {
-        console.log(error);
-      }
+    this.sound.play(() => {
+      console.log('playing sound:', this.sound);
+      this.interval = setInterval(() => console.log("this.sound.currentTime:", this.sound.currentTime), 500);
       this.setState({isPlaying: true})
     })
   }
 
   _record() {
-    const audioTrackId = uuidv4();
-    this.props.addTrack(audioTrackId);
-    this.currentFilename = `${this.props.multiTrackId}_${audioTrackId}.mp4`;
-    this.recording = new Recorder(this.currentFilename).record((error) => {
-      if (error) {
-        console.log(error);
-      }
+    this.currentSoundId = uuidv4();
+    this.currentFilename = `${this.currentSoundId}.aac`;
+
+    // Create recording instance with unique filename
+    this.recording = new Recorder(this.currentFilename)
+
+    this.recording.record(() => {
+      console.log('recording sound:', this.recording);
+      this.interval = setInterval(() => console.log("this.recording.isRecording", this.recording.isRecording), 500);
       this.setState({isRecording: true});
     });
   }
 
   _stop() {
     if (this.state.isRecording) {
-      this.recording.stop((error) => {
-        if (error) {
-          console.log(error);
-        }
+      this.recording.stop(() => {
+        console.log('stopped recording sound:', this.recording);
+        clearInterval(this.interval)
         this.setState({isRecording: false})
+
+        // Then create sound from newly made recording
+        this.sound = new Sound(this.recording.fsPath, '', (error) => {
+          if (error) {
+            console.log('failed to load the sound', error);
+            return;
+          }
+          // loaded successfully
+          console.log('duration in seconds: ' + this.sound.getDuration() + 'number of channels: ' + this.sound.getNumberOfChannels());
+        });
       })
 
-      this.sound = new Player(this.currentFilename, {autoDestroy: false})
-      this.sound.prepare()
-      this.sound.on("ended", () => {
-        this.setState({isPlaying: false}
-      )})
+
     } else if (this.state.isPlaying) {
-      this.sound.stop((error) => {
-        if (error) {
-          console.log(error);
-        }
+      this.sound.stop(() => {
+        console.log('stopped playing sound', this.sound);
+        clearInterval(this.interval)
         this.setState({isPlaying: false})
       })
     }

@@ -5,7 +5,7 @@ import MasterControls from '../../../../components/World/MultiTrack/MasterContro
 
 import { action } from '../../../../redux/actions';
 
-import uuidv4 from 'uuid/v4';
+
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -16,11 +16,11 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   const { multiTrackId } = ownProps;
   return {
-    addTrack: () => {
+    addTrack: (id) => {
       dispatch(action('ADD_TRACK', {
         multiTrackId: ownProps.multiTrackId,
         audioTrackData: {
-          id: uuidv4(),
+          id: id,
           isArmed: false,
           recordingDuration: null,
           soundData: {},

@@ -4,17 +4,12 @@ import styles from './_styles_Menu';
 
 
 export default class Menu extends Component {
-  onBackPressed = () => {
-    return;
-  }
-
   render() {
     return (
       <TouchableHighlight
         style={styles.main}
-        onPress={this.onBackPressed}
       >
-        <Text>[]</Text>
+        <Text>X</Text>
       </TouchableHighlight>
     )
   }

@@ -20,7 +20,14 @@ export default ControlButton = (props) => {
       style={styles.trackControl}
       onPressIn={specificFunction}
     >
-      <Text style={[styles.trackControlText, {color: isOn ? colorOn : colorOff}]}>{icon}</Text>
+      <Text style={[
+        styles.trackControlText,
+        {
+          color: isOn ? colorOn : colorOff,
+        },
+      ]}>
+        {icon}
+      </Text>
     </TouchableHighlight>
   )
 }

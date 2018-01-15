@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Alert,
   StatusBar,
@@ -13,15 +13,11 @@ const store = createStore(rootReducer, devToolsEnhancer({ realtime: true }));
 
 import WorldContainer from './src/containers/World/WorldContainer';
 
-export default class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <View>
-          <StatusBar hidden />
-          <WorldContainer />
-        </View>
-      </Provider>
-    );
-  }
-}
+export default App = () => (
+  <Provider store={store}>
+    <View>
+      <StatusBar hidden />
+      <WorldContainer />
+    </View>
+  </Provider>
+)

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   main: {
-    backgroundColor: '#222',
+    backgroundColor: '#343434',
     width: 300,
     height: 400,
     alignItems: 'center',
@@ -22,5 +22,13 @@ export default StyleSheet.create({
   },
   addTrackButtonText: {
     fontSize: 25,
+  },
+
+
+  scrollViewStyle: {
+    width: '100%',
+    height: '100%',
+    borderWidth: 1,
+    borderColor: "#993434",
   }
 });

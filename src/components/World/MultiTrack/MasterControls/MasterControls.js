@@ -41,17 +41,24 @@ export default class MasterControls extends Component {
 
   _pause() {
     this.sound.pause(() => {
+      // Callback invoked when sound has been paused
       console.log('paused sound:', this.sound);
       clearInterval(this.interval)
       this.setState({isPlaying: false})
+      console.log('this.state', this.state);
     })
   }
 
   _play() {
+    console.log('playing sound:', this.sound);
+    this.interval = setInterval(() => console.log("this.sound.currentTime:", this.sound.currentTime), 500);
+    this.setState({isPlaying: true})
+    console.log('this.state', this.state);
+
     this.sound.play(() => {
-      console.log('playing sound:', this.sound);
-      this.interval = setInterval(() => console.log("this.sound.currentTime:", this.sound.currentTime), 500);
-      this.setState({isPlaying: true})
+      // onEnd callback
+      clearInterval(this.interval)
+      this.setState({isPlaying: false})
     })
   }
 
@@ -84,6 +91,7 @@ export default class MasterControls extends Component {
           }
           // loaded successfully
           console.log('duration in seconds: ' + this.sound.getDuration() + 'number of channels: ' + this.sound.getNumberOfChannels());
+          this.props.saveSound(this.currentSoundId, this.currentFilename);
         });
       })
 
@@ -137,7 +145,7 @@ export default class MasterControls extends Component {
             />)}
             colorOn="#00f"
             colorOff={colorOff}
-            isOn={false}
+            isOn={!this.state.isPlaying && !this.state.isRecording}
           />
         </View>
 

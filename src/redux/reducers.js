@@ -21,7 +21,7 @@ const rootReducer = (state = initialState, action) => {
       return update(state, {
         multiTracks: {
           [multiTrackId]: {
-            sounds: {$push: [action.soundData]},
+            audioTracks: {$push: [action.soundData]},
           }
         }
       })

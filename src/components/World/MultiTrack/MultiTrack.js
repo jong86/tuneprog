@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { FlatList, ScrollView, TouchableHighlight, View } from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
+
+var RCTUIManager = require('NativeModules').UIManager;
+
 
 import MasterControlsContainer from '../../../containers/World/MultiTrack/MasterControls/MasterControlsContainer';
 import AudioTrackContainer from '../../../containers/World/MultiTrack/AudioTrack/AudioTrackContainer';
@@ -9,9 +18,23 @@ import styles from './_styles_MultiTrack';
 
 
 export default class MultiTrack extends Component {
-  _renderSoundsList() {
-    const sounds = this.props.multiTrackData.sounds;
-    return sounds.map((soundData, index) => {
+  componentDidUpdate() {
+    RCTUIManager.measure(this.refs.scrollView.getInnerViewNode(), (...data) => {
+      const { scrollView } = this.refs
+      console.log('scrollView', scrollView);
+      scrollView.scrollTo({y: data[3] - this.scrollViewHeight + 64})
+    })
+  }
+
+  _getScrollViewDimesions(dimensions) {
+    console.log("dimensions", dimensions);
+    this.scrollViewHeight = dimensions.height;
+  }
+
+  _renderAudioTracksList() {
+    const audioTracks = this.props.multiTrackData.audioTracks;
+    console.log('audioTracks', audioTracks, "reversed:", audioTracks.reverse());
+    return audioTracks.reverse().map((soundData, index) => {
       return (
         <AudioTrackContainer
           {...soundData}
@@ -26,7 +49,7 @@ export default class MultiTrack extends Component {
 
   render() {
     const { position } = this.props.multiTrackData;
-    const sounds = this.props.multiTrackData.sounds;
+    const audioTracks = this.props.multiTrackData.audioTracks;
     return (
       <View
         style={[
@@ -40,9 +63,16 @@ export default class MultiTrack extends Component {
 
         <ScrollView
           style={styles.scrollViewStyle}
+          ref="scrollView"
+          onLayout={(event) => { this._getScrollViewDimesions(event.nativeEvent.layout) }}
         >
+          <TouchableWithoutFeedback>
+            <View>
+              <View style={styles.bottomPusher}></View>
+              { audioTracks && audioTracks[0] && this._renderAudioTracksList() }
+            </View>
+          </TouchableWithoutFeedback>
         </ScrollView>
-          { sounds && sounds[0] && this._renderSoundsList() }
         <MasterControlsContainer multiTrackId={this.props.multiTrackId} />
       </View>
     )

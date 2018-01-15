@@ -9,7 +9,7 @@ export default class Menu extends Component {
       <TouchableHighlight
         style={styles.main}
       >
-        <Text>X</Text>
+        <Text></Text>
       </TouchableHighlight>
     )
   }

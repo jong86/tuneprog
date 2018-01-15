@@ -28,7 +28,11 @@ export default StyleSheet.create({
   scrollViewStyle: {
     width: '100%',
     height: '100%',
-    borderWidth: 1,
-    borderColor: "#993434",
+    borderWidth: 0,
+    // borderColor: "#993434",
+  },
+
+  bottomPusher: {
+    height: 176, // hacky but works
   }
 });

@@ -22,7 +22,7 @@ export default class ArmButton extends Component {
           style={[styles.armButton, { backgroundColor: isArmed ? "tomato" : "#555555" }]}
         >
           <Text>
-            ARM
+            SEL
           </Text>
         </View>
 

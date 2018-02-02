@@ -42,18 +42,18 @@ export default class MasterControls extends Component {
   _pause() {
     this.sound.pause(() => {
       // Callback invoked when sound has been paused
-      console.log('paused sound:', this.sound);
+      console.warn('paused sound:', this.sound);
       clearInterval(this.interval)
       this.setState({isPlaying: false})
-      console.log('this.state', this.state);
+      console.warn('this.state', this.state);
     })
   }
 
   _play() {
-    console.log('playing sound:', this.sound);
-    this.interval = setInterval(() => console.log("this.sound.currentTime:", this.sound.currentTime), 500);
+    console.warn('playing sound:', this.sound);
+    this.interval = setInterval(() => console.warn("this.sound.currentTime:", this.sound.currentTime), 500);
     this.setState({isPlaying: true})
-    console.log('this.state', this.state);
+    console.warn('this.state', this.state);
 
     this.sound.play(() => {
       // onEnd callback
@@ -70,8 +70,8 @@ export default class MasterControls extends Component {
     this.recording = new Recorder(this.currentFilename)
 
     this.recording.record(() => {
-      console.log('recording sound:', this.recording);
-      this.interval = setInterval(() => console.log("this.recording.isRecording", this.recording.isRecording), 500);
+      console.warn('recording sound:', this.recording);
+      this.interval = setInterval(() => console.warn("this.recording.isRecording", this.recording.isRecording), 500);
       this.setState({isRecording: true});
     });
   }
@@ -79,18 +79,18 @@ export default class MasterControls extends Component {
   _stop() {
     if (this.state.isRecording) {
       this.recording.stop(() => {
-        console.log('stopped recording sound:', this.recording);
+        console.warn('stopped recording sound:', this.recording);
         clearInterval(this.interval)
         this.setState({isRecording: false})
 
         // Then create sound from newly made recording
         this.sound = new Sound(this.recording.fsPath, '', (error) => {
           if (error) {
-            console.log('failed to load the sound', error);
+            console.warn('failed to load the sound', error);
             return;
           }
           // loaded successfully
-          console.log('duration in seconds: ' + this.sound.getDuration() + 'number of channels: ' + this.sound.getNumberOfChannels());
+          console.warn('duration in seconds: ' + this.sound.getDuration() + 'number of channels: ' + this.sound.getNumberOfChannels());
           this.props.saveSound(this.currentSoundId, this.currentFilename);
         });
       })
@@ -98,7 +98,7 @@ export default class MasterControls extends Component {
 
     } else if (this.state.isPlaying) {
       this.sound.stop(() => {
-        console.log('stopped playing sound', this.sound);
+        console.warn('stopped playing sound', this.sound);
         clearInterval(this.interval)
         this.setState({isPlaying: false})
       })

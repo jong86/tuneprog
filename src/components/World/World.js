@@ -42,7 +42,6 @@ export default class World extends Component {
   }
 
   toggleAddMultiTrackMode = () => {
-    console.log('you invoked toggleAddMultiTrackMode');
     this.setState({
       isAddMultiTrackModeEnabled: !this.state.isAddMultiTrackModeEnabled
     })
@@ -89,7 +88,6 @@ export default class World extends Component {
                   x: event.nativeEvent.locationX,
                   y: event.nativeEvent.locationY,
                 }
-                console.log('you pressed the map at', position);
                 this.props.addMultiTrack(position);
                 this.toggleAddMultiTrackMode();
               }

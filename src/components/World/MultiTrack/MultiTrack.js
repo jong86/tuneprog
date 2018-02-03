@@ -21,19 +21,16 @@ export default class MultiTrack extends Component {
   componentDidUpdate() {
     RCTUIManager.measure(this.refs.scrollView.getInnerViewNode(), (...data) => {
       const { scrollView } = this.refs
-      console.log('scrollView', scrollView);
       scrollView.scrollTo({y: data[3] - this.scrollViewHeight + 64})
     })
   }
 
   _getScrollViewDimesions(dimensions) {
-    console.log("dimensions", dimensions);
     this.scrollViewHeight = dimensions.height;
   }
 
   _renderAudioTracksList() {
     const audioTracks = this.props.multiTrackData.audioTracks;
-    console.log('audioTracks', audioTracks, "reversed:", audioTracks.reverse());
     return audioTracks.reverse().map((soundData, index) => {
       return (
         <AudioTrackContainer
